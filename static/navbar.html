@@ -1,0 +1,113 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg {% if user.is_authenticated and not user.is_dark_theme %}navbar-light bg-gray{% else %}bg-navbar{% endif %}  fixed-top p-2 shadow-lg" style="-webkit-app-region: drag;">
+    <div class="container-fluid px-1">
+        <a class="navbar-brand gradient-background ml-custom d-flex align-items-center" href="{% url 'staffhub:home' %}" style="-webkit-app-region: no-drag;">
+            <button class="btn btn-transparent m-0 px-2 rounded-4" id="backButton">
+                <i class="bi bi-chevron-left" style="font-size: 18px; color: gray;"></i>
+            </button>
+            <button class="btn btn-transparent px-2 pr-4 rounded-4" id="forwardButton" style="margin-right: 10px">
+                <i class="bi bi-chevron-right" style="font-size: 18px; color: gray;"></i>
+            </button>
+            <img src="{% static 'img/smalllogo.png' %}" alt="Sakura Airlines Logo" class="brand-logo mr-4" style="width:30px; height: 30px; margin-right: 10px">
+            <div class="brand-text ml-3 mr-3 p-0 my-0 fs-4">Sakura Airlines</div>
+        </a>
+
+
+        <style>
+            .ml-custom {
+                margin-left: 100px;
+            }
+
+            .nav-icons {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-left: 10px;
+            }
+
+            .btn-transparent {
+                background: none;
+                padding: 0;
+                border: none;
+                cursor: pointer;
+            }
+
+            .btn-transparent i {
+                color: white;
+                font-size: 24px;
+            }
+
+            .navbar-toggler {
+                -webkit-app-region: no-drag;
+            }
+        </style>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="-webkit-app-region: no-drag;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'staffhub:showflights' %}" style="-webkit-app-region: no-drag;">Карта полетов</a>
+                </li>
+
+                {% if request.user.role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'adminapp:dashboard' %}" style="-webkit-app-region: no-drag;">Администрирование</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'adminapp:manage_backups' %}" style="-webkit-app-region: no-drag;">Резервное копирование</a>
+                    </li>
+                {% endif %}
+
+                {% if request.user.role == 'flight' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'adminapp:flight_managements' %}" style="-webkit-app-region: no-drag;">Администратор рейсов</a>
+                    </li>
+                {% endif %}
+
+                {% if request.user.role == 'board' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'adminapp:board_managements' %}" style="-webkit-app-region: no-drag;">Администратор бортов</a>
+                    </li>
+                {% endif %}
+
+                {% if request.user.role == 'client' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'clienthub:find_flights' %}" style="-webkit-app-region: no-drag;">Поиск авиабилетов</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item" style="margin-right: 10px">
+                    <a class="nav-link" href="{% url 'staffhub:logout' %}" style="-webkit-app-region: no-drag;">Выход</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary w-100 rounded-5 px-2 d-flex align-items-center" href="{% url 'staffhub:profile' %}" style="-webkit-app-region: no-drag; padding-right: 15px !important">
+                        <div class="rounded-4 d-flex justify-content-between align-items-center" style="width: 30px; height: 30px; margin-right: 10px; margin-left: 0px;">
+                            <i class="bi bi-person" style="font-size: 30px;"></i>
+                        </div>
+                        <span class="ustext">{{ request.user.login }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // JavaScript for the back and forward buttons
+    const backButton = document.getElementById('backButton');
+    const forwardButton = document.getElementById('forwardButton');
+
+    // Go back in history
+    backButton.addEventListener('click', () => {
+        window.history.back();
+    });
+
+    // Go forward in history
+    forwardButton.addEventListener('click', () => {
+        window.history.forward();
+    });
+</script>

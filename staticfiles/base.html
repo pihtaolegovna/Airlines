@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="{% if user.is_authenticated and user.is_dark_theme %}dark{% endif %}{% if user.is_authenticated and not user.is_dark_theme %}light{% endif %}{% if user.is_authenticated and user.is_transparent %}-transparent{% else %}{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flight Management System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.1/dist/css/tempus-dominus.min.css" rel="stylesheet">
+    
+    
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <style>
+        {% include 'css/style.css' %}
+        {% include 'css/seats.css' %}
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- Main content -->
+    <div class="mt-4 mb-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+<script>
+    window.CSRF_TOKEN = '{{ csrf_token }}'; // Set CSRF token globally
+</script>
+
+</html>
